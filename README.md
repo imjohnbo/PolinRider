@@ -194,6 +194,10 @@ We assume the malware has similar functions to rewrite git history for other ope
 
 Our team has written a bash script that will check your local system for compromise.  At the end of this blog post you can find out more, or you can checkout the script [here](https://github.com/OpenSourceMalware/PolinRider/blob/main/polinrider-scanner.sh)
 
+The scanner (v2.0) searches **file content regardless of file type**, so payloads hidden in binary assets such as fake `.woff` / `.woff2` fonts are detected, not just JS config files. It covers both obfuscator variants (`rmcej%otb%` and `Cot%3t=shtP`), the `.vscode/tasks.json` curl-to-shell vector and its Vercel C2 subdomains, the malicious npm packages, and the `temp_auto_push.bat` / `config.bat` propagation artifacts. Detection mirrors the multi-variant `polinrider_payload` YARA rule below, including its corroboration requirements for weaker markers. Run `./polinrider-scanner.sh --help` for options (`--fast`, `--exclude`, `--verbose`).
+
+> **Note:** because the scanner matches on these malware signatures, running it against a copy of this repository (or anything else that quotes the signatures, like this blog post) will flag that documentation as "infected." Use `--exclude` to skip such directories.
+
 ---
 
 
